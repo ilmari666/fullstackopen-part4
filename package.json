@@ -1,0 +1,15 @@
+{
+  "name": "bloglist",
+  "version": "1.0.0",
+  "description": "blog list",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com-ilmari666:ilmari666/fullstackopen-part4.git"
+  },
+  "author": "ilmari",
+  "license": "ISC"
+}
