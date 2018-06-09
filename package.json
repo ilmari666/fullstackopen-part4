@@ -4,7 +4,7 @@
   "description": "blog list",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --verbose",
     "start": "node index.js",
     "watch": "nodemon index.js"
   },
@@ -15,6 +15,7 @@
   "author": "ilmari",
   "license": "ISC",
   "devDependencies": {
+    "jest": "^23.1.0",
     "nodemon": "^1.17.5"
   },
   "dependencies": {
