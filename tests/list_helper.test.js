@@ -16,6 +16,7 @@ describe('favoriteBlog()', () => {
     const result = listHelper.favoriteBlog(blogs);
     expect(result.likes).toBe(7);
   });
+
   test('multiple blogs', () => {
     const blogs = testData;
     const result = listHelper.favoriteBlog(blogs);
