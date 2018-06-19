@@ -52,6 +52,22 @@ const testData = [
   }
 ];
 
+const testUsers = [
+  {
+    username: 'ilku666',
+    name: 'ilmari kuula',
+    adult: true,
+    password: 'hottentotti'
+  },
+  {
+    username: 'kolol',
+    name: 'olli kola',
+    adult: false,
+    password: 'mikroautotuki'
+  }
+];
+
 module.exports = {
-  testData
+  testData,
+  testUsers
 };

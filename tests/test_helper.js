@@ -1,5 +1,6 @@
 const Blog = require('../models/blog');
-const { testData } = require('./data');
+const User = require('../models/user');
+const { testData, testUser } = require('./data');
 
 const nonExistingId = async () => {
   const blog = new Blog();
@@ -31,10 +32,16 @@ const resetAndPopulateDb = async () => {
   await Promise.all(promiseArray);
 };
 
+const clearUsersInDb = async () => await User.remove({});
+
+const getUsersInDb = async () => await User.find({});
+
 module.exports = {
   nonExistingId,
   blogsInDb,
   format,
   testData,
-  resetAndPopulateDb
+  resetAndPopulateDb,
+  clearUsersInDb,
+  getUsersInDb
 };
