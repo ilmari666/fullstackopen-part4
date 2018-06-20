@@ -1,20 +1,22 @@
 const mongoose = require('mongoose');
 
-const blogSchema = mongoose.model('Blog', {
+const blogSchema = new mongoose.Schema({
   title: String,
-  author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  author: String,
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   url: String,
   likes: { type: Number, default: 0 }
 });
 
-blogSchema.statics.format = ({ title, _id: id, url, author, likes }) => ({
+blogSchema.statics.format = ({ title, _id: id, url, user, author, likes }) => ({
   title,
   id,
   url,
+  user,
   author,
   likes
 });
 
-const Blog = mongoose.model('Blogr', blogSchema);
+const Blog = mongoose.model('Blog', blogSchema);
 
 module.exports = Blog;

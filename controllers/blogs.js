@@ -1,8 +1,27 @@
 const blogsRouter = require('express').Router();
 const Blog = require('../models/blog');
+const User = require('../models/user');
+const jwt = require('jsonwebtoken');
+
+const getTokenFrom = request => {
+  /*
+  const authorization = request.get('authorization');
+  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+    const codedToken = authorization.substring(7);
+    const token = jwt.verify(codedToken, process.env.SECRET);
+    return token;
+  }
+  return null;
+  */
+  const codedToken = request.body.token;
+  if (!codedToken) {
+    return null;
+  }
+  return jwt.verify(codedToken, process.env.SECRET);
+};
 
 blogsRouter.get('/', async (request, response) => {
-  const blogs = await Blog.find({}).populate('author');
+  const blogs = await Blog.find({}).populate('user', { username: 1, name: 1 });
   const formattedBlogs = blogs.map(blog => Blog.format(blog));
   response.json(formattedBlogs);
 });
@@ -12,7 +31,7 @@ blogsRouter.get('/:id', async (request, response) => {
   try {
     const blog = await Blog.findById(id);
     if (blog) {
-      blog.populate('author');
+      blog.populate('user');
       return response.json(Blog.format(blog));
     } else {
       return response.status(404).end();
@@ -23,19 +42,34 @@ blogsRouter.get('/:id', async (request, response) => {
 });
 
 blogsRouter.post('/', async (request, response) => {
-  const { title, url, likes } = request.body;
+  const { title, url, likes, author } = request.body;
 
   if (title && url) {
-    const user = User.findOne({});
-    const blog = new Blog({
-      title,
-      url,
-      likes,
-      author: user.id
-    });
-
-    const result = await blog.save();
-    return response.status(201).json(result);
+    try {
+      const token = getTokenFrom(request);
+      if (!token || token._id) {
+        return response.status(401).json({ error: 'invalid token' });
+      }
+      const user = await User.findById(token.id);
+      const blog = new Blog({
+        title,
+        url,
+        likes,
+        author,
+        user: user.id
+      });
+      const result = await blog.save();
+      user.blogs = user.blogs.concat(blog._id);
+      user.save();
+      return response.status(201).json(result);
+    } catch (e) {
+      if (e.name === 'JsonWebTokenError') {
+        response.status(401).json({ error: e.message });
+      } else {
+        console.log(e);
+        response.status(500).json({ error: 'something went wrong...' });
+      }
+    }
   }
   return response.status(400).end();
 });
