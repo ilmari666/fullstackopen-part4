@@ -50,7 +50,6 @@ blogsRouter.post('/', async (request, response) => {
       if (e.name === 'JsonWebTokenError') {
         response.status(401).json({ error: e.message });
       } else {
-        console.log(e);
         response.status(500).json({ error: 'something went wrong...' });
       }
     }
@@ -76,9 +75,20 @@ blogsRouter.put('/:id', async (request, response) => {
 });
 
 blogsRouter.delete('/:id', async (request, response) => {
+  const token = request.token;
+  if (!(token && token.id)) {
+    return response.status(401).json({ error: 'invalid or missing token' });
+  }
   const id = request.params.id;
   try {
-    await Blog.findByIdAndDelete(id);
+    const blog = await Blog.findById(id);
+    if (!blog) {
+      return response.status(404).json({ error: 'not found' });
+    }
+    if (!blog.user.toString() === token.id.toString()) {
+      return response.status(401).json({ error: 'unauthorized' });
+    }
+    blog.remove();
     response.status(204).end();
   } catch (e) {
     response.status(400).end();
