@@ -85,7 +85,7 @@ blogsRouter.delete('/:id', async (request, response) => {
     if (!blog) {
       return response.status(404).json({ error: 'not found' });
     }
-    if (!blog.user.toString() === token.id.toString()) {
+    if (!blog.user.toString() === token.id) {
       return response.status(401).json({ error: 'unauthorized' });
     }
     blog.remove();
