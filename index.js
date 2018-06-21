@@ -4,9 +4,10 @@ const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const blogsRouter = require('./controllers/blogs');
-const usersRouter = require('./controllers/users');
-const loginRouter = require('./controllers/login');
+const blogsRouter = require('./api/blogs');
+const usersRouter = require('./api/users');
+const loginRouter = require('./api/login');
+const extractToken = require('./middleware/extracttoken');
 
 const config = require('./utils/config');
 
@@ -21,6 +22,7 @@ mongoose
 
 app.use(cors());
 app.use(bodyParser.json());
+app.use(extractToken);
 app.use('/api/login', loginRouter);
 app.use('/api/blogs', blogsRouter);
 app.use('/api/users', usersRouter);

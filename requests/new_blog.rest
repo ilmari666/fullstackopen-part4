@@ -1,10 +1,10 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF1dGhvciIsImlkIjoiNWIyYWMyN2ZiOTk4MGYwNTIyMDYzNjVlIiwiaWF0IjoxNTI5NjA3ODczfQ.EHqxXvRl_iSu9sh1gFBFszhMvp53-RVe5WLKypmM00g
 
 {
-  "title": "blog titlez", 
-  "author": "blog authorz",
-  "url": "http://www.sokeri.com/ok/",
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF1dGhvciIsImlkIjoiNWIyYWMyN2ZiOTk4MGYwNTIyMDYzNjVlIiwiaWF0IjoxNTI5NTI5ODE2fQ._eNb48D4sQuVfLA4As89FziCg5jVHjtH4T_MAzczTWY"
+  "title": "blog titlez2", 
+  "author": "blog authorz2",
+  "url": "http://www.sokeri.com/ok/"
 }
 
